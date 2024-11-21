@@ -16,7 +16,7 @@ export default function PostListItem({ post }) {
   const image = cld.image(post.image);
   image.resize(thumbnail().width(width).height(width));
 
-  const avatar = cld.image(post.user.avatar_url);
+  const avatar = cld.image(post.user.avatar_url || 'istockphoto-1300845620-612x612_f0v7g9');
   avatar.resize(
     thumbnail().width(48).height(48).gravity(focusOn(FocusOn.face()))
   );
@@ -29,7 +29,7 @@ export default function PostListItem({ post }) {
           cldImg={avatar}
           className="w-12 aspect-square rounded-full"
         />
-        <Text className="font-semibold">{post.user.username}</Text>
+        <Text className="font-semibold">{post.user.username || 'New user'}</Text>
       </View>
 
       {/* Content */}
