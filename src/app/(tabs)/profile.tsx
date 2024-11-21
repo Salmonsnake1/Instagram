@@ -35,14 +35,18 @@ export default function ProfileScreen() {
     if (!user) {
       return;
     }
-
-    const { data, error } = await supabase.from('profiles').update({
-      id: user.id,
-      username, 
-    });
-
+  
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        username, // Only update the `username` field
+      })
+      .eq('id', user.id); // Match the row where `id` equals `user.id`
+  
     if (error) {
       Alert.alert('Failed to update profile');
+    } else {
+      Alert.alert('Profile updated successfully!');
     }
   };
 
