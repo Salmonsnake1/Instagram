@@ -43,7 +43,7 @@ export default function ProfileScreen() {
   const [username, setUsername] = useState<string>('');
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [posts, setPosts] = useState<any[]>([]); // User posts
+  const [posts, setPosts] = useState<any[]>([]);
 
   useEffect(() => {
     getProfile();

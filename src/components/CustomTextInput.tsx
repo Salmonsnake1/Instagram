@@ -2,7 +2,7 @@ import { Text, TextInput, View, TextInputProps } from 'react-native';
 
 // Define the types for the CustomTextInput props
 interface CustomTextInputProps extends TextInputProps {
-  label: string;  // label should be a string
+  label: string;
 }
 
 export default function CustomTextInput({ label, ...textInputProps }: CustomTextInputProps) {

@@ -13,7 +13,6 @@ type PostListItemProps = {
 };
 
 const PostListItem: React.FC<PostListItemProps> = ({ post }) => {
-  // Use the avatar_url as is; fallback to a placeholder if unavailable
   const avatarUrl = post.user.avatar_url || 'https://cdn-icons-png.flaticon.com/128/1326/1326377.png';
 
   return (
@@ -40,7 +39,7 @@ const PostListItem: React.FC<PostListItemProps> = ({ post }) => {
           source={{
             uri: `https://res.cloudinary.com/dupithuzj/image/upload/${post.image}.jpg`,
           }}
-          style={{ width: '100%', height: 240, marginTop: 0 }} // Reduced marginTop to 0
+          style={{ width: '100%', height: 240, marginTop: 0 }}
         />
       )}
 

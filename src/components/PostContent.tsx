@@ -6,12 +6,12 @@ import { ResizeMode, Video } from 'expo-av';
 
 // Define the type for a Post object
 interface Post {
-  media_type: 'image' | 'video';  // Assuming the media_type can only be 'image' or 'video'
-  image: string;  // The image URL or ID
+  media_type: 'image' | 'video';
+  image: string;
 }
 
 interface PostContentProps {
-  post: Post;  // Use the Post type for the post prop
+  post: Post;
 }
 
 export default function PostContent({ post }: PostContentProps) {
@@ -38,10 +38,9 @@ export default function PostContent({ post }: PostContentProps) {
         useNativeControls
         resizeMode={ResizeMode.CONTAIN}
         isLooping
-        // shouldPlay
       />
     );
   }
 
-  return null;  // Return null if neither image nor video is found
+  return null;
 }

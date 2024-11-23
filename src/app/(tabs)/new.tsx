@@ -1,4 +1,4 @@
-import { Text, View, Image, TextInput, Pressable } from 'react-native';
+import { Text, View, Image, TextInput, Pressable, Alert } from 'react-native';
 import { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import Button from '~/src/components/Button';
@@ -37,10 +37,12 @@ export default function CreatePost() {
     if (!image) {
       return;
     }
+
+    // Upload the image to Cloudinary
     const response = await uploadImage(image);
-    // Save the post in database
     console.log('image id: ', response?.public_id);
 
+    // Insert the post into the database
     const { data, error } = await supabase
       .from('posts')
       .insert([
@@ -52,7 +54,12 @@ export default function CreatePost() {
       ])
       .select();
 
-    router.push('/(tabs)');
+    if (error) {
+      Alert.alert('Error', 'There was an error creating the post.');
+    } else {
+      Alert.alert('Success', 'Post was uploaded successfully!');
+      router.push('/(tabs)');
+    }
   };
 
   return (

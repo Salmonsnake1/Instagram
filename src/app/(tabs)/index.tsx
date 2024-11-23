@@ -22,7 +22,6 @@ export default function FeedScreen() {
   useEffect(() => {
     fetchPosts();
 
-    // Debugging: Check current user info from Supabase
     const checkProfile = async () => {
       const { data, error } = await supabase.auth.getUser();
       if (error) {
@@ -108,7 +107,7 @@ export default function FeedScreen() {
     <FlatList
       data={posts}
       renderItem={({ item }) =>
-        item ? <PostListItem post={item} /> : null // Use ternary for conditional rendering
+        item ? <PostListItem post={item} /> : null
       }
       keyExtractor={(item) => item.id}
       contentContainerStyle={{

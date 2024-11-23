@@ -16,13 +16,13 @@ Notifications.setNotificationHandler({
 });
 
 interface NotificationProviderProps {
-  children: ReactNode;  // Properly type the children prop
+  children: ReactNode;
 }
 
 export default function NotificationProvider({ children }: NotificationProviderProps) {
   const [expoPushToken, setExpoPushToken] = useState('');
-  const notificationListener = useRef<any>(null);  // Temporarily use `any` if typing Subscription is problematic
-  const { user } = useAuth();  // Assuming `useAuth` gives you the logged-in user
+  const notificationListener = useRef<any>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     // Register for push notifications
@@ -41,14 +41,14 @@ export default function NotificationProvider({ children }: NotificationProviderP
     // Clean up the notification listener on component unmount
     return () => {
       if (notificationListener.current) {
-        notificationListener.current.remove();  // Use the `remove` method instead of `removeNotificationSubscription`
+        notificationListener.current.remove();
       }
     };
-  }, []);  // Empty dependency array to run only once when the component is mounted
+  }, []);
 
   useEffect(() => {
     saveUserPushToken();
-  }, [expoPushToken]);  // Save the push token when it changes
+  }, [expoPushToken]);
 
   const saveUserPushToken = async () => {
     if (!user?.id || !expoPushToken) {
@@ -60,7 +60,7 @@ export default function NotificationProvider({ children }: NotificationProviderP
       .update({ id: user.id, push_token: expoPushToken });
   };
 
-  return <>{children}</>;  // Render the children (this will wrap your app with this context)
+  return <>{children}</>;
 }
 
 function handleRegistrationError(errorMessage: string) {
