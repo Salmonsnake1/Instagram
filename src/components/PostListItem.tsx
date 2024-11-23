@@ -1,48 +1,58 @@
-import { View, Image, Text, useWindowDimensions } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { Ionicons, Feather, AntDesign } from '@expo/vector-icons';
 
-import { Cloudinary } from '@cloudinary/url-gen';
-import { AdvancedImage } from 'cloudinary-react-native';
-// Import required actions and qualifiers.
-import { thumbnail } from '@cloudinary/url-gen/actions/resize';
-import { byRadius } from '@cloudinary/url-gen/actions/roundCorners';
-import { focusOn } from '@cloudinary/url-gen/qualifiers/gravity';
-import { FocusOn } from '@cloudinary/url-gen/qualifiers/focusOn';
-import { cld } from '~/src/lib/cloudinary';
+type PostListItemProps = {
+  post: {
+    user: {
+      username: string;
+      avatar_url: string;
+    };
+    content: string;
+    image: string;
+  };
+};
 
-export default function PostListItem({ post }) {
-  const { width } = useWindowDimensions();
-
-  const image = cld.image(post.image);
-  image.resize(thumbnail().width(width).height(width));
-
-  const avatar = cld.image(post.user.avatar_url || 'istockphoto-1300845620-612x612_f0v7g9');
-  avatar.resize(
-    thumbnail().width(48).height(48).gravity(focusOn(FocusOn.face()))
-  );
+const PostListItem: React.FC<PostListItemProps> = ({ post }) => {
+  // Use the avatar_url as is; fallback to a placeholder if unavailable
+  const avatarUrl = post.user.avatar_url || 'https://cdn-icons-png.flaticon.com/128/1326/1326377.png';
 
   return (
-    <View className="bg-white">
-      {/* Header */}
-      <View className="p-3 flex-row items-center gap-2">
-        <AdvancedImage
-          cldImg={avatar}
-          className="w-12 aspect-square rounded-full"
+    <View style={{ backgroundColor: 'white', padding: 10 }}>
+      {/* Header: Avatar and Username */}
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 0 }}>
+        {/* Avatar */}
+        <Image
+          source={{ uri: avatarUrl }}
+          style={{ width: 40, height: 40, borderRadius: 20, marginRight: 10 }}
         />
-        <Text className="font-semibold">{post.user.username || 'New user'}</Text>
+        {/* Username */}
+        <Text style={{ fontWeight: 'bold' }}>
+          {post.user.username || 'New user'}
+        </Text>
       </View>
 
-      {/* Content */}
-      <AdvancedImage cldImg={image} className="w-full aspect-[4/3]" />
+      {/* Content: Post Text */}
+      <Text style={{ marginBottom: 5 }}>{post.content}</Text>
+
+      {/* Post Image (if any) */}
+      {post.image && (
+        <Image
+          source={{
+            uri: `https://res.cloudinary.com/dupithuzj/image/upload/${post.image}.jpg`,
+          }}
+          style={{ width: '100%', height: 240, marginTop: 0 }} // Reduced marginTop to 0
+        />
+      )}
 
       {/* Icons */}
-      <View className="flex-row gap-3 p-3">
+      <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
         <AntDesign name="hearto" size={20} />
         <Ionicons name="chatbubble-outline" size={20} />
         <Feather name="send" size={20} />
-
-        <Feather name="bookmark" size={20} className="ml-auto" />
+        <Feather name="bookmark" size={20} style={{ marginLeft: 'auto' }} />
       </View>
     </View>
   );
-}
+};
+
+export default PostListItem;
