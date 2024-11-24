@@ -11,6 +11,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  Linking,
 } from 'react-native';
 import { useAuth } from '~/src/providers/AuthProvider';
 import { supabase } from '~/src/lib/supabase';
@@ -37,12 +38,12 @@ const avatarOptions = [
   'https://cdn-icons-png.flaticon.com/128/9985/9985812.png',
 ];
 
-
 export default function ProfileScreen() {
   const { user } = useAuth();
   const [username, setUsername] = useState<string>('');
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [contactUsModalVisible, setContactUsModalVisible] = useState(false);
   const [posts, setPosts] = useState<any[]>([]);
 
   useEffect(() => {
@@ -173,12 +174,28 @@ export default function ProfileScreen() {
             top: 16,
             right: 16,
             padding: 10,
-            backgroundColor: '#f44336',
+            backgroundColor: '#9CA3AF',
             borderRadius: 5,
             elevation: 3,
           }}
         >
-          <Text style={{ color: '#fff', fontWeight: 'bold' }}>Sign Out</Text>
+          <Text style={{ color: '#fff', fontWeight: 'bold' }}>Sign out</Text>
+        </TouchableOpacity>
+
+        {/* Contact Us Button */}
+        <TouchableOpacity
+          onPress={() => setContactUsModalVisible(true)}
+          style={{
+            position: 'absolute',
+            top: 16,
+            left: 16,
+            padding: 10,
+            backgroundColor: '#9CA3AF',
+            borderRadius: 5,
+            elevation: 3,
+          }}
+        >
+          <Text style={{ color: '#fff', fontWeight: 'bold' }}>Contact us</Text>
         </TouchableOpacity>
 
         <View>
@@ -190,7 +207,7 @@ export default function ProfileScreen() {
                   width: 150,
                   height: 150,
                   borderRadius: 75,
-                  backgroundColor: '#d3d3d3',
+                  backgroundColor: '#9CA3AF',
                 }}
               />
             ) : (
@@ -199,7 +216,7 @@ export default function ProfileScreen() {
                   width: 150,
                   height: 150,
                   borderRadius: 75,
-                  backgroundColor: '#d3d3d3',
+                  backgroundColor: '#9CA3AF',
                 }}
               />
             )}
@@ -220,10 +237,20 @@ export default function ProfileScreen() {
           </View>
 
           <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 20 }}>
+            {/* Change Avatar Button */}
             <View style={{ marginRight: 10 }}>
-              <Button title="Change Avatar" onPress={() => setModalVisible(true)} />
+              <Button
+                title="Change Avatar"
+                onPress={() => setModalVisible(true)}
+                style={{ backgroundColor: '#9CA3AF' }}
+              />
             </View>
-            <Button title="Update Profile" onPress={updateProfile} />
+            {/* Profile Button */}
+            <Button
+              title="Update Profile"
+              onPress={updateProfile}
+              style={{ backgroundColor: '#9CA3AF' }}
+            />
           </View>
 
           <View style={{ marginTop: 20 }}>
@@ -240,6 +267,43 @@ export default function ProfileScreen() {
           </View>
         </View>
 
+        {/* Contact Us Modal */}
+        <Modal visible={contactUsModalVisible} animationType="slide" onRequestClose={() => setContactUsModalVisible(false)}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: 20,
+              backgroundColor: 'white',
+            }}
+          >
+             <Image
+              source={{ uri: 'https://cdn-icons-png.flaticon.com/256/11616/11616009.png' }}
+              style={{ width: 200, height: 150, marginBottom: 20 }}
+              resizeMode="contain"
+            />
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>
+              Contact us
+            </Text>
+            <Text style={{ marginBottom: 20, textAlign: 'center' }}>
+              If you have any questions or suggestions, feel free to reach out to us on{' '}
+              <TouchableOpacity onPress={() => Linking.openURL('https://www.instagram.com/instagram/?hl=en')}>
+                <Text style={{ color: '#5067eb', fontWeight: 'bold', textDecorationLine: 'underline' }}>
+                  Instagram
+                </Text>
+              </TouchableOpacity>
+            </Text>
+
+            <Button
+              title="Close"
+              onPress={() => setContactUsModalVisible(false)}
+              style={{ backgroundColor: '#9CA3AF', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 5 }}
+            />
+          </View>
+        </Modal>
+
+        {/* Avatar Selection Modal */}
         <Modal visible={modalVisible} animationType="slide" onRequestClose={() => setModalVisible(false)}>
           <View
             style={{
@@ -250,9 +314,7 @@ export default function ProfileScreen() {
               backgroundColor: 'white',
             }}
           >
-            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>
-              Select Your Avatar
-            </Text>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 20 }}>Select Your Avatar</Text>
             <FlatList
               data={avatarOptions}
               renderItem={({ item }) => renderAvatarOption(item)}
