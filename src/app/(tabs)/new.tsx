@@ -13,12 +13,6 @@ export default function CreatePost() {
 
   const { session } = useAuth();
 
-  useEffect(() => {
-    if (!image) {
-      pickImage();
-    }
-  }, [image]);
-
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -60,8 +54,9 @@ export default function CreatePost() {
 
       setCaption('');
       setImage(null);
+      
 
-      router.push('/(tabs)');
+      router.push('/(tabs)/');
     }
   };
 
