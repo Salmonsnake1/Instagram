@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, StyleSheet, View, AppState, TextInput } from 'react-native';
+import { Alert, StyleSheet, View, AppState, TextInput, Image } from 'react-native';
 import Button from '~/src/components/Button';
 import { supabase } from '~/src/lib/supabase';
 
@@ -49,6 +49,10 @@ export default function Auth() {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={{ uri: 'https://cdn-icons-png.flaticon.com/256/6376/6376198.png' }}
+        style={styles.image}
+      />
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <TextInput
           onChangeText={(text) => setEmail(text)}
@@ -98,5 +102,17 @@ const styles = StyleSheet.create({
   },
   mt20: {
     marginTop: 20,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#D1D5DB',
+    padding: 12,
+    borderRadius: 8,
+  },
+  image: {
+    width: '50%',
+    height: 150,
+    marginBottom: 20,
+    alignSelf: 'center',
   },
 });

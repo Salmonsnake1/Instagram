@@ -1,17 +1,44 @@
-import { Pressable, Text } from 'react-native';
+import React from 'react';
+import { TouchableOpacity, Text, StyleSheet, TouchableOpacityProps } from 'react-native';
 
-type ButtonProps = {
+interface ButtonProps extends TouchableOpacityProps {
   title: string;
-  onPress?: () => void;
+  onPress: () => void;
+  disabled?: boolean;
+}
+
+const Button: React.FC<ButtonProps> = ({ title, onPress, disabled, style }) => {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.button, disabled && styles.disabledButton, style]}
+      disabled={disabled}
+    >
+      <Text style={styles.buttonText}>{title}</Text>
+    </TouchableOpacity>
+  );
 };
 
-export default function Button({ title, onPress }: ButtonProps) {
-  return (
-    <Pressable
-      onPress={onPress}
-      className="bg-blue-500 w-full p-3 items-center rounded-md"
-    >
-      <Text className="text-white font-semibold">{title}</Text>
-    </Pressable>
-  );
-}
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: '#9CA3AF',
+    padding: 12,
+    borderRadius: 5,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  disabledButton: {
+    backgroundColor: '#A0A0A0',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+});
+
+
+export default Button;

@@ -8,5 +8,4 @@ export default function AuthLayout() {
     return <Redirect href="/(tabs)" />;
   }
 
-  return <Stack />;
-}
+  return <Stack screenOptions={{ headerShown: false }} />; }
