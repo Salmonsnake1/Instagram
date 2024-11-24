@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, FlatList, View, Text, Modal, TouchableOpacity, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PostListItem from '~/src/components/PostListItem';
 import { supabase } from '~/src/lib/supabase';
+import { useFocusEffect } from '@react-navigation/native';
 
 type Post = {
   id: string;
@@ -43,6 +44,12 @@ export default function FeedScreen() {
     }
     setLoading(false);
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchPosts();
+    }, [])
+  );
 
   return (
     <FlatList
